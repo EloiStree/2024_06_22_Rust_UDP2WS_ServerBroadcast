@@ -51,7 +51,7 @@ fn main () {
     let  use_print= true;
     let server = TcpListener::bind("0.0.0.0:4504").unwrap();
     for stream in server.incoming() {
-        let ref_list = handshake_list.clone();
+        //let ref_list = handshake_list.clone();
         spawn (move || {
 
             let mut websocket = accept(stream.unwrap()).unwrap();
