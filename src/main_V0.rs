@@ -67,7 +67,7 @@ pub fn CheckIfSignedGuidIsValid(received_signed_guid_b64:String, public_rsa_key_
 }
 
 /// A WebSocket echo server
-fn main() {
+fn main_backup () {
 
     //let mut dictionnary_rsa_websocket_list: HashMap<String, vec<WebSocketRSATunnelHandshake>> = HashMap::new();
     let mut handshake_list: Arc<Mutex<Vec<RSATunnelHanshake>>> = Arc::new(Mutex::new(Vec::new()));
@@ -77,7 +77,7 @@ fn main() {
     let mut created_websocket_list: HashMap<u32, &tungstenite::WebSocket<TcpStream>> = HashMap::new();
 
     let  use_print= true;
-    let server: TcpListener = TcpListener::bind("0.0.0.0:4504").unwrap();
+    let server = TcpListener::bind("0.0.0.0:4504").unwrap();
 
 
 
@@ -97,8 +97,18 @@ fn main() {
             is_signed_guid_valid: false,
         };
 
-       
-        println!("Start Listening to websocket: {}", connection_index);
+        println!("Start Listening to braodcast channel: {}", connection_index);
+        spawn ({
+            let mut rx= tx.subscribe();
+            loop {
+
+                let msg = rx.recv().unwrap();
+                websocket.send(Message::Text(msg)).unwrap();
+
+            }
+
+        });
+        println("Start Listening to websocket: {}", connection_index);
         //let ref_list = handshake_list.clone();
         spawn (move || {
 
@@ -162,5 +172,6 @@ fn main() {
             }
         });
         
+        println!("TTTTTTTTTTTTTTTEEEEEEEEEESSSSSSSSTTTTTTT: {}","Hello World!");
     }
 }
