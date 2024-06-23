@@ -47,6 +47,8 @@ fn main () {
 
        
    
+
+   
         
     let  use_print= true;
     let server = TcpListener::bind("0.0.0.0:4504").unwrap();
@@ -103,7 +105,11 @@ fn main () {
                             client.received_signed_guid_b64 = signed.to_string();
                             client.received_signed_guid = base64::decode(signed).unwrap();
                             
-                            let is_valid =CheckIfSignedGuidIsValid(client.received_signed_guid_b64, client.public_rsa_key_given, client.sent_guid);
+                            let is_valid =CheckIfSignedGuidIsValid(
+                                client.received_signed_guid_b64,
+                                 client.public_rsa_key_given.to_string(),
+                                  client.sent_guid.to_string()
+                                );
                             client.is_signed_guid_valid = is_valid;
 
                             if client.is_signed_guid_valid
