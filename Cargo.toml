@@ -1,0 +1,9 @@
+[package]
+name = "be_eloistree_udpwsbroadcaster"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+tungstenite = "0.23.0"
+base64 = "0.22.1"
